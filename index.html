@@ -61,10 +61,9 @@
         h2::after { content: ''; display: block; width: 60px; height: 4px; background: var(--secondary-color); margin: 10px auto 0; border-radius: 2px; }
         a { color: var(--text-color); text-decoration: none; transition: color 0.3s; }
 
-        /* --- UPDATED HEADER STYLES --- */
+        /* --- HEADER STYLES --- */
         header { 
             position: fixed; 
-            /* இங்கே மாற்றியுள்ளேன்: 15px-ல் இருந்து 25px ஆக மாற்றப்பட்டது (கொஞ்சம் கீழே இறக்க) */
             top: 25px; 
             left: 0; 
             width: 100%; 
@@ -81,15 +80,16 @@
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             width: auto;
-            min-width: 65%; /* Width increased slightly to accommodate new link */
+            min-width: 65%;
             max-width: 1100px;
             border-radius: 50px;
-            padding: 10px 35px; /* Padding adjusted */
+            padding: 10px 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
         }
 
         .logo-text {
@@ -112,7 +112,7 @@
             margin: 0; 
             list-style: none; 
             display: flex; 
-            gap: 20px; /* Reduced gap slightly to fit Certificates */
+            gap: 20px; 
         }
 
         header nav a { 
@@ -126,6 +126,13 @@
 
         header nav a:hover, .nav-active { 
             color: #ffffff !important; 
+        }
+
+        /* Controls Container (Theme Switcher + Mobile Toggle) */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* Theme Switcher Button */
@@ -142,7 +149,6 @@
             align-items: center; 
             justify-content: center; 
             transition: all 0.3s; 
-            margin-left: 15px;
         }
         
         #theme-switcher:hover { 
@@ -150,47 +156,62 @@
             transform: scale(1.05); 
         }
 
-        /* --- UPDATED MEDIA QUERIES (Mobile View) --- */
+        /* Mobile Menu Toggle (Hamburger) */
+        .mobile-toggle {
+            display: none; /* Hidden by default on desktop */
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* --- MOBILE VIEW STYLES --- */
         @media (max-width: 900px) {
-            header { top: 15px; } /* Mobile-ல் அதிக இடம் வீணாகாமல் இருக்க */
+            header { top: 10px; }
+            
             .header-content {
                 width: 90%;
-                flex-direction: column;
-                padding: 15px 20px;
                 border-radius: 20px;
-                gap: 15px;
+                padding: 15px 20px;
+                flex-wrap: wrap; /* Allow items to wrap */
             }
-            
+
+            .mobile-toggle {
+                display: block; /* Show hamburger on mobile */
+            }
+
+            /* Navigation Logic for Mobile */
+            header nav {
+                width: 100%;
+                display: none; /* Hide menu by default */
+                margin-top: 20px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 15px;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            header nav.active {
+                display: block; /* Show when active class added */
+            }
+
             header nav ul {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
             }
-            
+
             header nav a {
-                font-size: 0.75rem;
+                font-size: 1rem;
+                padding: 5px;
             }
         }
 
-        /* Mobile Very Small Screens */
-        @media (max-width: 480px) {
-            header { top: 10px; }
-            .header-content { padding: 12px; }
-            .logo-text { font-size: 1.1rem; }
-            
-            header nav ul { 
-                gap: 10px; 
-            }
-            
-            /* Certificates வார்த்தை பெருசு என்பதால் font-size-ஐ குறைத்துள்ளேன் */
-            header nav a { 
-                font-size: 0.65rem; 
-                padding: 2px 4px;
-            }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* General Section & Animation */
-        /* Increased top padding to accommodate the header position */
         .page-section { padding: 150px 0 100px 0; } 
         .section-content { transition: opacity 0.6s, transform 0.6s; }
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
@@ -507,7 +528,14 @@
                 <h1 class="logo-text">KRISHNAMOORTHY <span>E</span></h1>
             </div>
 
-            <nav>
+            <div class="header-controls">
+                <div id="theme-switcher"><i class="fa-solid fa-moon"></i></div>
+                <div class="mobile-toggle" id="mobile-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+
+            <nav id="nav-menu">
                 <ul>
                     <li><a href="#home">HOME</a></li>
                     <li><a href="#about">ABOUT</a></li>
@@ -517,7 +545,6 @@
                     <li><a href="#contact">CONTACT</a></li>
                 </ul>
             </nav>
-            <div id="theme-switcher"><i class="fa-solid fa-moon"></i></div>
         </div>
     </header>
 
@@ -743,6 +770,36 @@
             const applyTheme = () => { const savedTheme = localStorage.getItem('theme'); if (savedTheme === 'dark') { body.setAttribute('data-theme', 'dark'); themeSwitcher.innerHTML = '<i class="fa-solid fa-sun"></i>'; } else { body.removeAttribute('data-theme'); themeSwitcher.innerHTML = '<i class="fa-solid fa-moon"></i>'; } };
             themeSwitcher.addEventListener('click', () => { const currentTheme = body.getAttribute('data-theme'); if (currentTheme === 'dark') { body.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); themeSwitcher.innerHTML = '<i class="fa-solid fa-moon"></i>'; } else { body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); themeSwitcher.innerHTML = '<i class="fa-solid fa-sun"></i>'; } });
             applyTheme();
+
+            // Mobile Menu Toggle Logic
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (mobileToggle && navMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    // Toggle icon between bars and X
+                    const icon = mobileToggle.querySelector('i');
+                    if (navMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                // Close menu when a link is clicked
+                const navLinksMobile = navMenu.querySelectorAll('a');
+                navLinksMobile.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                        const icon = mobileToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    });
+                });
+            }
 
             // Active Nav & Scroll Animation Logic
             const sections = document.querySelectorAll('.page-section');
