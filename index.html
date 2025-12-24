@@ -61,10 +61,11 @@
         h2::after { content: ''; display: block; width: 60px; height: 4px; background: var(--secondary-color); margin: 10px auto 0; border-radius: 2px; }
         a { color: var(--text-color); text-decoration: none; transition: color 0.3s; }
 
-        /* --- UPDATED HEADER STYLES (Fixed Size) --- */
+        /* --- UPDATED HEADER STYLES --- */
         header { 
             position: fixed; 
-            top: 15px; /* Reduced top gap slightly */
+            /* இங்கே மாற்றியுள்ளேன்: 15px-ல் இருந்து 25px ஆக மாற்றப்பட்டது (கொஞ்சம் கீழே இறக்க) */
+            top: 25px; 
             left: 0; 
             width: 100%; 
             z-index: 1000; 
@@ -79,11 +80,11 @@
             background: rgba(15, 15, 25, 0.85);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            width: auto; /* Changed from fixed % to auto */
-            min-width: 60%;
-            max-width: 1100px; /* Reduced max-width to match container */
+            width: auto;
+            min-width: 65%; /* Width increased slightly to accommodate new link */
+            max-width: 1100px;
             border-radius: 50px;
-            padding: 8px 30px; /* Reduced top/bottom padding for sleek look */
+            padding: 10px 35px; /* Padding adjusted */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -95,7 +96,7 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 800;
             font-style: italic;
-            font-size: 1.3rem; /* Slightly smaller logo text */
+            font-size: 1.3rem;
             color: #60a5fa; 
             margin: 0;
             line-height: 1;
@@ -111,13 +112,13 @@
             margin: 0; 
             list-style: none; 
             display: flex; 
-            gap: 25px; /* Reduced gap */
+            gap: 20px; /* Reduced gap slightly to fit Certificates */
         }
 
         header nav a { 
             color: #94a3b8; 
             font-weight: 600; 
-            font-size: 0.8rem; /* Adjusted font size */
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             transition: color 0.3s ease;
@@ -132,8 +133,8 @@
             background: #1e293b; 
             border: 1px solid rgba(255,255,255,0.1); 
             color: #fbbf24; 
-            border-radius: 50%; /* Make it perfectly round */
-            width: 35px; /* Smaller button */
+            border-radius: 50%;
+            width: 35px;
             height: 35px; 
             cursor: pointer; 
             font-size: 1rem; 
@@ -149,14 +150,15 @@
             transform: scale(1.05); 
         }
 
-        /* Mobile Responsive Header (Improved) */
+        /* --- UPDATED MEDIA QUERIES (Mobile View) --- */
         @media (max-width: 900px) {
+            header { top: 15px; } /* Mobile-ல் அதிக இடம் வீணாகாமல் இருக்க */
             .header-content {
                 width: 90%;
                 flex-direction: column;
                 padding: 15px 20px;
                 border-radius: 20px;
-                gap: 10px;
+                gap: 15px;
             }
             
             header nav ul {
@@ -175,12 +177,21 @@
             header { top: 10px; }
             .header-content { padding: 12px; }
             .logo-text { font-size: 1.1rem; }
-            header nav ul { gap: 10px; }
-            header nav a { font-size: 0.7rem; }
+            
+            header nav ul { 
+                gap: 10px; 
+            }
+            
+            /* Certificates வார்த்தை பெருசு என்பதால் font-size-ஐ குறைத்துள்ளேன் */
+            header nav a { 
+                font-size: 0.65rem; 
+                padding: 2px 4px;
+            }
         }
 
         /* General Section & Animation */
-        .page-section { padding: 140px 0 100px 0; }
+        /* Increased top padding to accommodate the header position */
+        .page-section { padding: 150px 0 100px 0; } 
         .section-content { transition: opacity 0.6s, transform 0.6s; }
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
@@ -502,6 +513,7 @@
                     <li><a href="#about">ABOUT</a></li>
                     <li><a href="#skills">SKILLS</a></li>
                     <li><a href="#projects">PROJECTS</a></li>
+                    <li><a href="#certificates">CERTIFICATES</a></li>
                     <li><a href="#contact">CONTACT</a></li>
                 </ul>
             </nav>
